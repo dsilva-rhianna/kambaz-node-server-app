@@ -1,13 +1,13 @@
 import express from 'express';
 import Hello from "./Hello.js"
-import Lab5 from "./Lab5/index.js";
+import Lab5 from "./lab5/index.js";
 import cors from "cors";
-import db from "./Kambaz/Database/index.js";
-import UserRoutes from "./Kambaz/Users/routes.js";
-import CourseRoutes from "./Kambaz/Courses/routes.js";
-import ModulesRoutes from "./Kambaz/Modules/routes.js";
-import AssignmentsRoutes from "./Kambaz/Assignments/routes.js";
-import EnrollmentsRoutes from "./Kambaz/Enrollments/routes.js";
+import db from "./kambaz/database/index.js";
+import UserRoutes from "./kambaz/users/routes.js";
+import CourseRoutes from "./kambaz/courses/routes.js";
+import ModulesRoutes from "./kambaz/modules/routes.js";
+import AssignmentsRoutes from "./kambaz/assignments/routes.js";
+import EnrollmentsRoutes from "./kambaz/enrollments/routes.js";
 import "dotenv/config";
 import session from "express-session";
 
