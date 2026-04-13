@@ -12,6 +12,7 @@ import "dotenv/config";
 import session from "express-session";
 
 const app = express()
+app.set('trust proxy', 1);
 app.use(
   cors({
     credentials: true,
