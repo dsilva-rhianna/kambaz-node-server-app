@@ -1,5 +1,4 @@
 import UsersDao from "./dao.js";
-import db from "../Database/index.js"; 
 export default function UserRoutes(app) {
   const dao = UsersDao();
   const createUser = async (req, res) => {
@@ -52,15 +51,6 @@ export default function UserRoutes(app) {
     }
     res.json(currentUser);
   };
-  const findUsersInCourse = async (req, res) => {
-    const { courseId } = req.params;
-    const { users, enrollments } = db;
-    const enrolledUserIds = enrollments
-      .filter((e) => e.course === courseId)
-      .map((e) => e.user);
-    const enrolledUsers = users.filter((u) => enrolledUserIds.includes(u._id));
-    res.json(enrolledUsers);
-  };
   const findAllUsers = async (req, res) => {
     const { role, name } = req.query;
     if (role) {
@@ -89,6 +79,5 @@ export default function UserRoutes(app) {
   app.post("/api/users/signin", signin);
   app.post("/api/users/signout", signout);
   app.post("/api/users/profile", profile);
-  app.get("/api/courses/:courseId/users", findUsersInCourse);
 }
 
