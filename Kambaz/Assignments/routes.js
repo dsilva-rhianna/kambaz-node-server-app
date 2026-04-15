@@ -1,49 +1,48 @@
 import AssignmentsDao from "./dao.js";
 
-export default function AssignmentsRoutes(app, db) {
-  const dao = AssignmentsDao(db);
-  const findAllAssignments = (req, res) => {
-    res.json(dao.findAllAssignments());
+export default function AssignmentsRoutes(app) {
+  const dao = AssignmentsDao();
+
+  const findAllAssignments = async (req, res) => {
+    const assignments = await dao.findAllAssignments();
+    res.json(assignments);
   };
-  const findAssignmentsForCourse = (req, res) => {
-    const { courseId } = req.params;
-    res.json(dao.findAssignmentsForCourse(courseId));
+
+  const findAssignmentsForCourse = async (req, res) => {
+    const { cid } = req.params;
+    const assignments = await dao.findAssignmentsForCourse(cid);
+    res.json(assignments);
   };
-  const findAssignmentById = (req, res) => {
-    const { assignmentId } = req.params;
-    const assignment = dao.findAssignmentById(assignmentId);
-    if (!assignment) {
-      res.status(404).json({ message: "Assignment not found" });
-      return;
-    }
+
+  const findAssignmentById = async (req, res) => {
+    const assignment = await dao.findAssignmentById(req.params.assignmentId);
     res.json(assignment);
   };
-  const createAssignment = (req, res) => {
-    const newAssignment = dao.createAssignment(req.body);
-    res.status(201).json(newAssignment);
+
+  const createAssignment = async (req, res) => {
+    const assignment = await dao.createAssignment({
+      ...req.body,
+      course: req.params.cid,
+    });
+    res.json(assignment);
   };
-  const updateAssignment = (req, res) => {
+
+  const updateAssignment = async (req, res) => {
     const { assignmentId } = req.params;
-    const updated = dao.updateAssignment(assignmentId, req.body);
-    if (!updated) {
-      res.status(404).json({ message: "Assignment not found" });
-      return;
-    }
-    res.sendStatus(200);
+    const status = await dao.updateAssignment(assignmentId, req.body);
+    res.json(status);
   };
-  const deleteAssignment = (req, res) => {
+
+  const deleteAssignment = async (req, res) => {
     const { assignmentId } = req.params;
-    const deleted = dao.deleteAssignment(assignmentId);
-    if (!deleted) {
-      res.status(404).json({ message: "Assignment not found" });
-      return;
-    }
-    res.sendStatus(200);
+    const status = await dao.deleteAssignment(assignmentId);
+    res.json(status);
   };
+
   app.get("/api/assignments", findAllAssignments);
-  app.get("/api/courses/:courseId/assignments", findAssignmentsForCourse);
+  app.get("/api/courses/:cid/assignments", findAssignmentsForCourse);
   app.get("/api/assignments/:assignmentId", findAssignmentById);
-  app.post("/api/assignments", createAssignment);
+  app.post("/api/courses/:cid/assignments", createAssignment);
   app.put("/api/assignments/:assignmentId", updateAssignment);
   app.delete("/api/assignments/:assignmentId", deleteAssignment);
 }
