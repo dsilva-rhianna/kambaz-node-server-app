@@ -1,5 +1,5 @@
 import QuizAttemptsDao from "./dao.js";
-import QuestionsDao from "../questions/dao.js";
+import QuestionsDao from "../Questions/dao.js";
 
 export default function QuizAttemptsRoutes(app) {
   const dao = QuizAttemptsDao();
