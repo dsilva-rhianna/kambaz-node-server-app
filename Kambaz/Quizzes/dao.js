@@ -1,9 +1,8 @@
 import model from "./model.js";
 import { v4 as uuidv4 } from "uuid";
-import questionModel from "../questions/model.js";
 
 export default function QuizzesDao() {
-  
+
   const findAllQuizzes = () => model.find();
 
   const findQuizById = (id) => model.findById(id);
